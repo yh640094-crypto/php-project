@@ -8,7 +8,7 @@ $rooms = getAllRooms($conn);
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-5">
-    <h2 class="mb-4">الغرف المتاحة</h2>
+    <h2 class="mb-4">Available Rooms</h2>
     
     <div class="row">
         <?php foreach ($rooms as $room): ?>
@@ -19,16 +19,16 @@ $rooms = getAllRooms($conn);
                         <h5 class="card-title"><?php echo htmlspecialchars($room['name']); ?></h5>
                         <p class="card-text"><?php echo htmlspecialchars($room['description']); ?></p>
                         <p class="card-text">
-                            <strong>النوع:</strong> <?php echo htmlspecialchars($room['type']); ?><br>
-                            <strong>السعة:</strong> <?php echo $room['capacity']; ?> أشخاص<br>
-                            <strong>السعر (الليلة):</strong> <span class="text-success"><?php echo formatCurrency($room['price']); ?></span>
+                            <strong>Type:</strong> <?php echo htmlspecialchars($room['type']); ?><br>
+                            <strong>Capacity:</strong> <?php echo $room['capacity']; ?> persons<br>
+                            <strong>Price per Night:</strong> <span class="text-success">$<?php echo number_format($room['price'], 2); ?></span>
                         </p>
                         <?php $avg_rating = getAverageRating($conn, $room['id']); ?>
                         <div class="mb-3">
-                            <i class="fas fa-star text-warning"></i> <?php echo $avg_rating; ?>/5 (تقييم)
+                            <i class="fas fa-star text-warning"></i> <?php echo $avg_rating; ?>/5 (ratings)
                         </div>
                         <a href="room-details.php?id=<?php echo $room['id']; ?>" class="btn btn-primary w-100">
-                            عرض التفاصيل
+                            View Details
                         </a>
                     </div>
                 </div>

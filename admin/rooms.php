@@ -24,15 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         if (empty($name) || empty($type) || $price <= 0 || $capacity <= 0) {
-            $error = 'جميع الحقول مطلوبة';
+            $error = 'All fields are required';
         } else {
             $stmt = $conn->prepare('INSERT INTO rooms (name, type, price, capacity, description, amenities, image, status) VALUES (?, ?, ?, ?, ?, ?, ?, "available")');
             $stmt->bind_param('ssidiss', $name, $type, $price, $capacity, $description, $amenities, $image);
             
             if ($stmt->execute()) {
-                $success = 'تم إضافة الغرفة بنجاح';
+                $success = 'Room added successfully';
             } else {
-                $error = 'حدث خطأ أثناء إضافة الغرفة';
+                $error = 'Error adding room';
             }
         }
     }
@@ -43,7 +43,7 @@ $rooms = getAllRooms($conn);
 <?php include '../includes/header.php'; ?>
 
 <div class="container mt-5">
-    <h2 class="mb-4">إدارة الغرف</h2>
+    <h2 class="mb-4">Manage Rooms</h2>
     
     <?php if ($error): ?>
         <div class="alert alert-danger"><?php echo $error; ?></div>
@@ -54,64 +54,64 @@ $rooms = getAllRooms($conn);
     
     <div class="card mb-4">
         <div class="card-header">
-            <h5 class="mb-0">إضافة غرفة جديدة</h5>
+            <h5 class="mb-0">Add New Room</h5>
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="add">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="name" class="form-label">اسم الغرفة</label>
+                        <label for="name" class="form-label">Room Name</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="type" class="form-label">نوع الغرفة</label>
+                        <label for="type" class="form-label">Room Type</label>
                         <select class="form-control" id="type" name="type" required>
-                            <option value="">اختر النوع</option>
-                            <option value="فردية">فردية</option>
-                            <option value="مزدوجة">مزدوجة</option>
-                            <option value="عائلية">عائلية</option>
-                            <option value="ملكية">ملكية</option>
+                            <option value="">Select type</option>
+                            <option value="Single">Single</option>
+                            <option value="Double">Double</option>
+                            <option value="Family">Family</option>
+                            <option value="Suite">Suite</option>
                         </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="price" class="form-label">السعر (الليلة)</label>
+                        <label for="price" class="form-label">Price per Night ($)</label>
                         <input type="number" class="form-control" id="price" name="price" step="0.01" required>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="capacity" class="form-label">السعة (عدد الأشخاص)</label>
+                        <label for="capacity" class="form-label">Capacity (Persons)</label>
                         <input type="number" class="form-control" id="capacity" name="capacity" required>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="description" class="form-label">الوصف</label>
+                    <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="amenities" class="form-label">المرافق</label>
-                    <textarea class="form-control" id="amenities" name="amenities" rows="2" placeholder="Wi-Fi، تلفاز، حمام خاص، إلخ"></textarea>
+                    <label for="amenities" class="form-label">Amenities</label>
+                    <textarea class="form-control" id="amenities" name="amenities" rows="2" placeholder="Wi-Fi, TV, AC, etc"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="image" class="form-label">صورة الغرفة</label>
+                    <label for="image" class="form-label">Room Image</label>
                     <input type="file" class="form-control" id="image" name="image" accept="image/*">
                 </div>
-                <button type="submit" class="btn btn-primary">إضافة الغرفة</button>
+                <button type="submit" class="btn btn-primary">Add Room</button>
             </form>
         </div>
     </div>
     
-    <h4 class="mb-3">الغرف الموجودة</h4>
+    <h4 class="mb-3">Available Rooms</h4>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>الاسم</th>
-                    <th>النوع</th>
-                    <th>السعة</th>
-                    <th>السعر</th>
-                    <th>الحالة</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Capacity</th>
+                    <th>Price</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,7 +120,7 @@ $rooms = getAllRooms($conn);
                         <td><?php echo htmlspecialchars($room['name']); ?></td>
                         <td><?php echo htmlspecialchars($room['type']); ?></td>
                         <td><?php echo $room['capacity']; ?></td>
-                        <td><?php echo formatCurrency($room['price']); ?></td>
+                        <td>$<?php echo number_format($room['price'], 2); ?></td>
                         <td><span class="badge bg-success"><?php echo htmlspecialchars($room['status']); ?></span></td>
                     </tr>
                 <?php endforeach; ?>

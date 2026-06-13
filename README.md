@@ -1,26 +1,26 @@
-# 🏨 نظام حجز الفنادق - Hotel Booking System
+# Hotel Booking System
 
-نظام متكامل لحجز الفنادق مبني بـ PHP و MySQL مع واجهة استخدام حديثة وآمنة.
+A complete hotel booking system built with PHP and MySQL with admin and user dashboards.
 
-## ✨ المميزات
+## Features
 
-### للعملاء (Users)
-- ✅ تسجيل حساب جديد وتسجيل دخول آمن
-- ✅ تصفح الغرف المتاحة
-- ✅ عرض تفاصيل الغرفة (الصور، الوصف، المرافق)
-- ✅ حجز الغرف باختيار تاريخ الدخول والخروج
-- ✅ إضافة تقييمات وآراء حول الغرف
-- ✅ عرض حجوزاتهم السابقة
-- ✅ لوحة تحكم شخصية
+### For Users
+- ✅ User registration and secure login
+- ✅ Browse available rooms
+- ✅ View room details (images, description, amenities)
+- ✅ Book rooms by selecting check-in and check-out dates
+- ✅ Add reviews and ratings
+- ✅ View booking history
+- ✅ Personal dashboard
 
-### للإدارة (Admin)
-- 🔒 لوحة تحكم متقدمة
-- 📊 عرض الإحصائيات (إجمالي الغرف، الحجوزات، الإيرادات)
-- 🏠 إدارة الغرف (إضافة، تعديل، حذف)
-- 📝 إدارة الحجوزات
-- 👥 إدارة المستخدمين
+### For Admin
+- 🔐 Admin dashboard with statistics
+- 📊 View total rooms, bookings, users, and revenue
+- 🏠 Manage rooms (add, view)
+- 📋 Manage all bookings
+- 👥 View all users
 
-## 🛠️ التقنيات المستخدمة
+## Technologies Used
 
 - **Backend:** PHP 7.4+
 - **Database:** MySQL 5.7+
@@ -28,21 +28,21 @@
 - **JavaScript:** Vanilla JS
 - **Security:** Password Hashing, Input Sanitization, SQL Injection Prevention
 
-## 📋 المتطلبات
+## Requirements
 
-- PHP 7.4 أو أعلى
-- MySQL 5.7 أو أعلى
+- PHP 7.4 or higher
+- MySQL 5.7 or higher
 - Web Server (Apache, Nginx)
 
-## 🚀 خطوات التثبيت
+## Installation
 
-### 1. إنشاء قاعدة البيانات
+### 1. Create Database
 ```bash
 mysql -u root -p < database.sql
 ```
 
-### 2. تحديث إعدادات الاتصال
-عدّل ملف `config/database.php`:
+### 2. Update Database Configuration
+Edit `config/database.php`:
 ```php
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
@@ -50,95 +50,70 @@ define('DB_PASS', '');
 define('DB_NAME', 'hotel_booking');
 ```
 
-### 3. إنشاء مجلد الصور
+### 3. Create Images Directory
 ```bash
 mkdir -p assets/images
 chmod 755 assets/images
 ```
 
-### 4. تشغيل التطبيق
+### 4. Run the Application
 ```bash
 cd php-project
 php -S localhost:8000
 ```
 
-ثم افتح المتصفح على: `http://localhost:8000`
+Then open: `http://localhost:8000`
 
-## 👤 حسابات التجربة
+## Test Accounts
 
 ### Admin Account
-- البريد: `admin@hotel.com`
-- كلمة المرور: `admin123` (يرجى تغييرها)
+- Email: `admin@hotel.com`
+- Password: `admin123`
 
-## 📁 هيكل المشروع
+## Project Structure
 
 ```
 php-project/
 ├── config/
-│   ├── database.php      # إعدادات قاعدة البيانات
-│   ├── auth.php          # إدارة المستخدمين
-│   └── functions.php     # الدوال المساعدة
+│   ├── database.php      # Database configuration
+│   ├── auth.php          # Authentication functions
+│   └── functions.php     # Helper functions
 ├── admin/
-│   ├── dashboard.php     # لوحة التحكم
-│   ├── rooms.php         # إدارة الغرف
-│   └── bookings.php      # إدارة الحجوزات
+│   ├── dashboard.php     # Admin dashboard
+│   ├── rooms.php         # Manage rooms
+│   └── bookings.php      # Manage bookings
 ├── user/
-│   └── dashboard.php     # لوحة المستخدم
+│   └── dashboard.php     # User dashboard
 ├── includes/
-│   ├── header.php        # رأس الصفحة
-│   └── footer.php        # تذييل الصفحة
+│   ├── header.php        # Page header
+│   └── footer.php        # Page footer
 ├── assets/
 │   ├── css/
 │   │   └── style.css
 │   ├── js/
 │   │   └── main.js
-│   └── images/           # صور الغرف
-├── index.php             # الصفحة الرئيسية
-├── register.php          # تسجيل جديد
-├── login.php             # تسجيل دخول
-├── logout.php            # تسجيل خروج
-├── rooms.php             # عرض الغرف
-├── room-details.php      # تفاصيل الغرفة
-└── database.sql          # نصوص SQL
+│   └── images/           # Room images
+├── index.php             # Home page
+├── register.php          # Registration
+├── login.php             # Login
+├── logout.php            # Logout
+├── rooms.php             # Browse rooms
+├── room-details.php      # Room details & booking
+└── database.sql          # SQL file
 ```
 
-## 🔐 معايير الأمان
+## Security Features
 
-✅ تشفير كلمات المرور باستخدام `password_hash`
-✅ التحقق من المدخلات (`Input Sanitization`)
-✅ حماية من SQL Injection باستخدام `Prepared Statements`
-✅ إدارة الجلسات الآمنة (`Session Management`)
-✅ التحقق من صلاحيات المستخدمين (`Authorization Checks`)
+✅ Password hashing using `password_hash`
+✅ Input validation and sanitization
+✅ Protection against SQL Injection using Prepared Statements
+✅ Secure session management
+✅ User authorization checks
 
-## 📱 المميزات المتقدمة
+## License
 
-- 🌐 دعم اللغة العربية بشكل كامل
-- 📱 واجهة مستجيبة (Responsive Design)
-- 🎨 تصميم حديث وجذاب
-- ⚡ أداء سريع وفعال
-- 📊 تقارير وإحصائيات
-
-## 🤝 المساهمة
-
-نرحب بالمساهمات! يرجى:
-1. عمل Fork للمشروع
-2. إنشاء فرع جديد (`git checkout -b feature/amazing-feature`)
-3. الالتزام بالتغييرات (`git commit -m 'Add amazing feature'`)
-4. رفع الفرع (`git push origin feature/amazing-feature`)
-5. فتح Pull Request
-
-## 📝 الترخيص
-
-هذا المشروع مرخص تحت [MIT License](LICENSE)
-
-## 👨‍💻 المطور
-
-تم تطويره بواسطة: **PHP Developer**
-
-## 📞 التواصل والدعم
-
-للأسئلة والدعم، يرجى فتح Issue جديدة في المشروع.
+This project is licensed under the MIT License.
 
 ---
 
-**شكراً لاستخدامك نظام حجز الفنادق! 🙏**
+**Thank you for using Hotel Booking System!**

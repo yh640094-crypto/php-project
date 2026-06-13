@@ -18,26 +18,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = sanitize($_POST['phone'] ?? '');
     
     if (empty($name) || empty($email) || empty($password) || empty($phone)) {
-        $error = 'جميع الحقول مطلوبة';
+        $error = 'All fields are required';
     } elseif (!validateEmail($email)) {
-        $error = 'البريد الإلكتروني غير صحيح';
+        $error = 'Invalid email address';
     } elseif (strlen($password) < 6) {
-        $error = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+        $error = 'Password must be at least 6 characters';
     } elseif ($password !== $confirm_password) {
-        $error = 'كلمات المرور غير متطابقة';
+        $error = 'Passwords do not match';
     } else {
         $existingUser = getUserByEmail($conn, $email);
         if ($existingUser) {
-            $error = 'البريد الإلكتروني موجود بالفعل';
+            $error = 'Email already exists';
         } else {
             $hashed_password = hashPassword($password);
             $stmt = $conn->prepare('INSERT INTO users (name, email, password, phone, role, created_at) VALUES (?, ?, ?, ?, "user", NOW())');
             $stmt->bind_param('ssss', $name, $email, $hashed_password, $phone);
             
             if ($stmt->execute()) {
-                $success = 'تم التسجيل بنجاح! يمكنك الآن تسجيل الدخول';
+                $success = 'Registration successful! You can now login';
             } else {
-                $error = 'حدث خطأ أثناء التسجيل';
+                $error = 'Error during registration';
             }
         }
     }
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">إنشاء حساب جديد</h4>
+                    <h4 class="mb-0">Create New Account</h4>
                 </div>
                 <div class="card-body">
                     <?php if ($error): ?>
@@ -68,29 +68,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     <form method="POST">
                         <div class="mb-3">
-                            <label for="name" class="form-label">الاسم</label>
+                            <label for="name" class="form-label">Full Name</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">البريد الإلكتروني</label>
+                            <label for="email" class="form-label">Email Address</label>
                             <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                         <div class="mb-3">
-                            <label for="phone" class="form-label">رقم الجوال</label>
+                            <label for="phone" class="form-label">Phone Number</label>
                             <input type="tel" class="form-control" id="phone" name="phone" required>
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">كلمة المرور</label>
+                            <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                         <div class="mb-3">
-                            <label for="confirm_password" class="form-label">تأكيد كلمة المرور</label>
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
                             <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">التسجيل</button>
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
                     <p class="mt-3 text-center">
-                        هل لديك حساب؟ <a href="login.php">تسجيل الدخول</a>
+                        Already have an account? <a href="login.php">Login here</a>
                     </p>
                 </div>
             </div>

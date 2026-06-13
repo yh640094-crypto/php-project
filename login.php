@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     
     if (empty($email) || empty($password)) {
-        $error = 'البريد الإلكتروني وكلمة المرور مطلوبة';
+        $error = 'Email and password are required';
     } else {
         $user = getUserByEmail($conn, $email);
         
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             exit();
         } else {
-            $error = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+            $error = 'Invalid email or password';
         }
     }
 }
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="col-md-5">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">تسجيل الدخول</h4>
+                    <h4 class="mb-0">Login</h4>
                 </div>
                 <div class="card-body">
                     <?php if ($error): ?>
@@ -53,17 +53,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     <form method="POST">
                         <div class="mb-3">
-                            <label for="email" class="form-label">البريد الإلكتروني</label>
+                            <label for="email" class="form-label">Email Address</label>
                             <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">كلمة المرور</label>
+                            <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">دخول</button>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
                     <p class="mt-3 text-center">
-                        ليس لديك حساب؟ <a href="register.php">سجل الآن</a>
+                        Don't have an account? <a href="register.php">Register here</a>
                     </p>
                 </div>
             </div>

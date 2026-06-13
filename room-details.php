@@ -28,19 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $check_out = sanitize($_POST['check_out'] ?? '');
         
         if (empty($check_in) || empty($check_out)) {
-            $error = 'تاريخ الدخول والخروج مطلوبة';
+            $error = 'Check-in and check-out dates are required';
         } else {
             $nights = calculateNights($check_in, $check_out);
             if ($nights <= 0) {
-                $error = 'تاريخ الخروج يجب أن يكون بعد تاريخ الدخول';
+                $error = 'Check-out date must be after check-in date';
             } else {
                 $total_price = $nights * $room['price'];
                 $user_id = getCurrentUser();
                 
                 if (createBooking($conn, $user_id, $room_id, $check_in, $check_out, $total_price)) {
-                    $success = 'تم الحجز بنجاح!';
+                    $success = 'Booking successful!';
                 } else {
-                    $error = 'حدث خطأ أثناء الحجز';
+                    $error = 'Error during booking';
                 }
             }
         }
@@ -50,15 +50,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $user_id = getCurrentUser();
         
         if (empty($rating) || empty($comment)) {
-            $error = 'التقييم والتعليق مطلوبة';
+            $error = 'Rating and comment are required';
         } elseif ($rating < 1 || $rating > 5) {
-            $error = 'التقييم يجب أن يكون بين 1 و 5';
+            $error = 'Rating must be between 1 and 5';
         } else {
             if (addReview($conn, $user_id, $room_id, $rating, $comment)) {
-                $success = 'تم إضافة التقييم بنجاح';
+                $success = 'Review added successfully';
                 header('Refresh:2');
             } else {
-                $error = 'حدث خطأ أثناء إضافة التقييم';
+                $error = 'Error adding review';
             }
         }
     }
@@ -76,23 +76,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5>تفاصيل الغرفة</h5>
+                    <h5>Room Details</h5>
                 </div>
                 <div class="card-body">
-                    <p><strong>النوع:</strong> <?php echo htmlspecialchars($room['type']); ?></p>
-                    <p><strong>السعة:</strong> <?php echo $room['capacity']; ?> أشخاص</p>
-                    <p><strong>السعر (الليلة):</strong> <span class="text-success">​<?php echo formatCurrency($room['price']); ?></span></p>
-                    <p><strong>المرافق:</strong> <?php echo htmlspecialchars($room['amenities']); ?></p>
+                    <p><strong>Type:</strong> <?php echo htmlspecialchars($room['type']); ?></p>
+                    <p><strong>Capacity:</strong> <?php echo $room['capacity']; ?> persons</p>
+                    <p><strong>Price per Night:</strong> <span class="text-success">$<?php echo number_format($room['price'], 2); ?></span></p>
+                    <p><strong>Amenities:</strong> <?php echo htmlspecialchars($room['amenities']); ?></p>
                 </div>
             </div>
             
             <div class="card">
                 <div class="card-header">
-                    <h5>التقييمات (<?php echo count($reviews); ?>)</h5>
+                    <h5>Reviews (<?php echo count($reviews); ?>)</h5>
                 </div>
                 <div class="card-body">
                     <p class="mb-3">
-                        <strong>التقييم العام:</strong>
+                        <strong>Average Rating:</strong>
                         <span class="text-warning">
                             <i class="fas fa-star"></i> <?php echo $avg_rating; ?>/5
                         </span>
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                                     <?php echo str_repeat('⭐', $review['rating']); ?>
                                 </p>
                                 <p class="card-text"><?php echo htmlspecialchars($review['comment']); ?></p>
-                                <small class="text-muted"><?php echo formatDate($review['created_at']); ?></small>
+                                <small class="text-muted"><?php echo date('d/m/Y', strtotime($review['created_at'])); ?></small>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -124,47 +124,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         <div class="col-lg-4">
             <div class="card sticky-top" style="top: 20px;">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">حجز الآن</h5>
+                    <h5 class="mb-0">Book Now</h5>
                 </div>
                 <div class="card-body">
                     <form method="POST">
                         <input type="hidden" name="action" value="book">
                         <div class="mb-3">
-                            <label for="check_in" class="form-label">تاريخ الدخول</label>
+                            <label for="check_in" class="form-label">Check-in Date</label>
                             <input type="date" class="form-control" id="check_in" name="check_in" required>
                         </div>
                         <div class="mb-3">
-                            <label for="check_out" class="form-label">تاريخ الخروج</label>
+                            <label for="check_out" class="form-label">Check-out Date</label>
                             <input type="date" class="form-control" id="check_out" name="check_out" required>
                         </div>
-                        <button type="submit" class="btn btn-success w-100">حجز الآن</button>
+                        <button type="submit" class="btn btn-success w-100">Book Room</button>
                     </form>
                 </div>
             </div>
             
             <div class="card mt-3">
                 <div class="card-header">
-                    <h5 class="mb-0">أضف تقييم</h5>
+                    <h5 class="mb-0">Add Review</h5>
                 </div>
                 <div class="card-body">
                     <form method="POST">
                         <input type="hidden" name="action" value="review">
                         <div class="mb-3">
-                            <label for="rating" class="form-label">التقييم</label>
+                            <label for="rating" class="form-label">Rating</label>
                             <select class="form-control" id="rating" name="rating" required>
-                                <option value="">اختر التقييم</option>
-                                <option value="5">⭐⭐⭐⭐⭐ ممتاز</option>
-                                <option value="4">⭐⭐⭐⭐ جيد جداً</option>
-                                <option value="3">⭐⭐⭐ جيد</option>
-                                <option value="2">⭐⭐ مقبول</option>
-                                <option value="1">⭐ ضعيف</option>
+                                <option value="">Select rating</option>
+                                <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                                <option value="4">⭐⭐⭐⭐ Very Good</option>
+                                <option value="3">⭐⭐⭐ Good</option>
+                                <option value="2">⭐⭐ Fair</option>
+                                <option value="1">⭐ Poor</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="comment" class="form-label">التعليق</label>
+                            <label for="comment" class="form-label">Comment</label>
                             <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">إرسال التقييم</button>
+                        <button type="submit" class="btn btn-primary w-100">Submit Review</button>
                     </form>
                 </div>
             </div>
