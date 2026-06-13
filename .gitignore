@@ -1,0 +1,6 @@
+*.log
+.DS_Store
+config/database.php
+__pycache__/
+.env
+node_modules/
